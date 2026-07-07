@@ -1,0 +1,23 @@
+services:
+  mc-server:
+    container_name: mc-server
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    env_file:
+      - .env
+
+    ports:
+      - "8888:25565"
+      - "8888:25565/udp"
+
+    volumes:
+      - world-data:/app/world
+      - ./config/server.properties:/app/server.properties
+
+    restart: unless-stopped
+
+volumes:
+  world-data:
