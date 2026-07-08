@@ -219,6 +219,3 @@ __marimo__/
 
 # eula.txt is generated automatically in the Dockerfile, no need to track it
 eula.txt
-
-# server.properties is generated at runtime and contains local test data
-config/server.properties

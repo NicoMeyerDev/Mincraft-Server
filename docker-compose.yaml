@@ -15,7 +15,6 @@ services:
 
     volumes:
       - world-data:/app/world
-      - ./config/server.properties:/app/server.properties
 
     restart: unless-stopped
 

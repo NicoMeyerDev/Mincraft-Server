@@ -52,10 +52,10 @@ The primary configuration file for a multiplayer server is server.properties, wh
 
 ## Steps
 
-### 1. Verify config overrides
+### 1. Verify overrides
 Check that environment variables from `.env` are correctly applied to `server.properties`:
 
-    cat config/server.properties
+    cat server.properties
 
 Confirm `max-players` and `difficulty` match the values set in `.env`.
 
@@ -74,7 +74,7 @@ Set up a Python virtual environment and install MCStatus:
     source venv/bin/activate
     python3 -m pip install mcstatus
 
-Enable query mode in `config/server.properties`:
+Enable query mode in `server.properties`:
 
     enable-query=true
 
@@ -85,15 +85,16 @@ Restart the container, then run:
     mcstatus localhost:8888 query
 
 ### 4. Verify auto-restart on failure
-`docker stop`/`docker kill` are treated as intentional user actions by Docker and will **not** trigger the `unless-stopped` restart policy. To simulate a real crash, kill the Java process running inside the container instead:
+Get the container's process ID as seen by the host system, then kill it from there (not from inside the container):
 
-    docker exec mc-server kill -9 1
+    docker inspect mc-server --format "{{.State.Pid}}"   # get host-level PID
+    sudo kill -9 <PID>                                   # replace <PID> with that number
 
 Then confirm the container restarted automatically:
 
     docker compose ps -a
 
-Container should show as running again due to `restart: unless-stopped`.
+Container should show a low uptime (e.g. "Up X seconds"), confirming the restart was triggered by `restart: unless-stopped`.
 
 ### 5. (Optional) Connect with Java Minecraft Client
 - Launch Minecraft, select **Multiplayer** → **Direct Connection**
