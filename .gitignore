@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# eula.txt is generated automatically in the Dockerfile, no need to track it
+eula.txt
